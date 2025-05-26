@@ -1,5 +1,5 @@
 <script lang="ts">
-	import CommandBar from '$lib/CommandBar.svelte';
+	import { CommandBar } from '$lib/index.js';
 	import type { Command } from '$lib/types.js';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import '../app.css';
