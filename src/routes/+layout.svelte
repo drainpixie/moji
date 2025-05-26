@@ -1,9 +1,12 @@
 <script lang="ts">
 	import CommandBar from '$lib/CommandBar.svelte';
 	import type { Command } from '$lib/types.js';
+	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import '../app.css';
 
 	import { House, Info, Contact, Plus, Save, Trash, Code, Github } from '@lucide/svelte';
+
+	injectAnalytics();
 
 	let { children } = $props();
 

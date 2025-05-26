@@ -21,7 +21,7 @@
           packages =
             builtins.attrValues {
               inherit (pkgs) nodejs_latest;
-              inherit (pkgs.nodePackages_latest) pnpm;
+              inherit (pkgs.nodePackages_latest) pnpm vercel;
             }
             ++ check.enabledPackages;
         };
