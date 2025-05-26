@@ -45,6 +45,11 @@
 	</div>
 
 	<div>
+		<p>data-command-bar-hotkey</p>
+		<p>Hotkey component displayed next to command text</p>
+	</div>
+
+	<div>
 		<p>data-command-index</p>
 		<p>Numeric index attribute for tracking the command position</p>
 	</div>

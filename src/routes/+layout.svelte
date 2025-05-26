@@ -17,7 +17,8 @@
 			text: 'Contact',
 			trigger: () => console.log('Contact'),
 			icon: Contact,
-			category: 'navigation'
+			category: 'navigation',
+			hotkey: ['c']
 		},
 		{ text: 'New', trigger: () => console.log('New'), icon: Plus, category: 'actions' },
 		{ text: 'Save', trigger: () => console.log('Save'), icon: Save, category: 'actions' },
@@ -26,7 +27,8 @@
 			text: 'SourceHut',
 			trigger: () => (window.location.href = 'https://git.sr.ht/~pixie'),
 			icon: Code,
-			category: 'socials'
+			category: 'socials',
+			hotkey: ['s', 'h']
 		},
 		{
 			text: 'GitHub',
@@ -86,6 +88,10 @@
 
 		[data-command-bar-text] {
 			@apply flex-1 leading-none;
+		}
+
+		[data-command-bar-hotkey] {
+			@apply rounded-md border border-neutral-200 bg-neutral-100 px-2 py-1 text-xs font-semibold text-neutral-500 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-400;
 		}
 
 		[data-command-bar-category-title] {

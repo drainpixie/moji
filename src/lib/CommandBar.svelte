@@ -95,16 +95,67 @@
 		if (flattened.length > 0 && selectedIndex() >= flattened.length) setIndex(0);
 	});
 
+	function matchHotkey(event: KeyboardEvent, hotkey: string[]): boolean {
+		const key = event.key.toLowerCase();
+
+		const mods = {
+			ctrl: event.ctrlKey,
+			alt: event.altKey,
+			shift: event.shiftKey,
+			meta: event.metaKey
+		};
+
+		const matched = {
+			ctrl: false,
+			alt: false,
+			shift: false,
+			meta: false,
+			key: ''
+		};
+
+		for (const part of hotkey) {
+			const low = part.toLowerCase();
+
+			if (low === 'ctrl' || low === 'control') matched.ctrl = true;
+			else if (low === 'alt') matched.alt = true;
+			else if (low === 'shift') matched.shift = true;
+			else if (low === 'meta' || low === 'cmd' || low === 'command') matched.meta = true;
+			else matched.key = low;
+		}
+
+		for (const mod of ['ctrl', 'alt', 'shift', 'meta'] as const)
+			if (mods[mod] !== matched[mod]) return false;
+
+		return key === matched.key;
+	}
+
 	function onKeyDown(e: KeyboardEvent) {
 		if (e.key === 'Escape') {
 			e.preventDefault();
 			close();
 			clear();
+			return;
+		}
+
+		if (Array.isArray(hotkey) && matchHotkey(e, hotkey)) {
+			e.preventDefault();
+			toggle();
+			clear();
+			return;
 		} else if (hotkey?.(e)) {
 			e.preventDefault();
 			toggle();
 			clear();
+			return;
 		}
+
+		if (!isOpen())
+			for (const command of commands)
+				if (command.hotkey && matchHotkey(e, command.hotkey)) {
+					e.preventDefault();
+					command.trigger();
+					return;
+				}
 	}
 
 	function onHover(e: MouseEvent) {
@@ -201,6 +252,14 @@
 							<span data-command-bar-text>
 								{command.text}
 							</span>
+
+							{#if command.hotkey}
+								<kbd data-command-bar-hotkey>
+									{#each command.hotkey as key (key)}
+										{key}
+									{/each}
+								</kbd>
+							{/if}
 						</button>
 					{/each}
 				{/each}
