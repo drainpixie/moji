@@ -16,9 +16,9 @@ $ pnpm add @drainpixie/moji
 ```svelte
 <!-- src/routes/+layout.svelte -->
 <script lang="ts">
-	import CommandBar from '@drainpixie/moji';
+	import { CommandBar, type Command } from '@drainpixie/moji';
 
-	const commands = [
+	const commands: Command[] = [
 		{ text: 'Home', trigger: () => console.log('Home'), icon: House, category: 'navigation' },
 		{ text: 'Create', trigger: () => console.log('Create'), icon: Plus, category: 'actions' }
 	];
