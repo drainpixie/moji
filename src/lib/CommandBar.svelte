@@ -1,15 +1,21 @@
 <script lang="ts">
 	import type { CommandBarProps } from './types.js';
+	import {
+		query,
+		isOpen,
+		selectedIndex,
+		close,
+		clear,
+		toggle,
+		setIndex,
+		setQuery
+	} from './state.svelte.js';
 
 	const {
 		commands = [],
 		hotkey = (e) => e.key === 'k' && e.ctrlKey,
 		maxItems = 5
 	}: CommandBarProps = $props();
-
-	let query = $state('');
-	let isOpen = $state(false);
-	let selectedIndex = $state(0);
 
 	// TODO: Port to own library
 	function jaroWinklerDistance(a: string, b: string) {
@@ -75,7 +81,7 @@
 	const sorted = $derived(
 		groupBy(
 			commands
-				.map((command) => ({ command, score: jaroWinklerDistance(command.text, query) }))
+				.map((command) => ({ command, score: jaroWinklerDistance(command.text, query()) }))
 				.sort((a, b) => b.score - a.score)
 				.slice(0, maxItems)
 				.map(({ command }) => command),
@@ -86,68 +92,71 @@
 	const flattened = $derived(Object.values(sorted).flat());
 
 	$effect(() => {
-		if (flattened.length > 0 && selectedIndex >= flattened.length) selectedIndex = 0;
+		if (flattened.length > 0 && selectedIndex() >= flattened.length) setIndex(0);
 	});
 
 	function onKeyDown(e: KeyboardEvent) {
 		if (e.key === 'Escape') {
 			e.preventDefault();
-			isOpen = false;
-			query = '';
-			selectedIndex = 0;
+			close();
+			clear();
 		} else if (hotkey?.(e)) {
 			e.preventDefault();
-			isOpen = !isOpen;
-			query = '';
-			selectedIndex = 0;
+			toggle();
+			clear();
 		}
 	}
 
 	function onHover(e: MouseEvent) {
 		if (e.target instanceof HTMLElement && e.target.closest('[data-command-bar-item]'))
-			selectedIndex = Number(e.target.dataset.commandIndex);
+			setIndex(Number(e.target.dataset.commandIndex));
 	}
 
 	function onSearchInput(e: KeyboardEvent) {
+		const { value } = e.target as HTMLInputElement;
+		setQuery(value);
+
 		if (e.key === 'Enter') {
 			e.preventDefault();
 
-			const selectedCommand = flattened[selectedIndex];
+			const selectedCommand = flattened[selectedIndex()];
 			if (selectedCommand) {
 				selectedCommand.trigger();
-				isOpen = false;
-				query = '';
-				selectedIndex = 0;
+				close();
+				clear();
 			}
 		} else if (e.key === 'ArrowDown') {
 			e.preventDefault();
-			selectedIndex = Math.min(selectedIndex + 1, flattened.length - 1);
+			setIndex(Math.min(selectedIndex() + 1, flattened.length - 1));
 		} else if (e.key === 'ArrowUp') {
 			e.preventDefault();
-			selectedIndex = Math.max(selectedIndex - 1, 0);
+			setIndex(Math.max(selectedIndex() - 1, 0));
 		}
 	}
 
 	function onClickOutside(e: MouseEvent) {
-		if (e.target instanceof HTMLElement && e.target.closest('[data-command-bar]')) return;
+		if (
+			e.target instanceof HTMLElement &&
+			(e.target.closest('[data-command-bar]') || e.target.closest('[data-command-bar-trigger]'))
+		)
+			return;
 
-		isOpen = false;
-		query = '';
-		selectedIndex = 0;
+		close();
+		clear();
 	}
 </script>
 
 <svelte:window onkeydown={onKeyDown} onclick={onClickOutside} />
 
-{#if isOpen}
+{#if isOpen()}
 	<div
 		data-command-bar-overlay
-		data-state={isOpen ? 'open' : 'closed'}
+		data-state={isOpen() ? 'open' : 'closed'}
 		class="fixed top-0 left-0 z-50 flex h-full w-full flex-col items-center justify-center px-4 md:px-0"
 	>
 		<div
 			data-command-bar
-			data-state={isOpen ? 'open' : 'closed'}
+			data-state={isOpen() ? 'open' : 'closed'}
 			class="flex w-full max-w-md flex-col"
 		>
 			<div data-command-bar-search class="flex items-center gap-2 p-4">
@@ -158,7 +167,7 @@
 					placeholder="Search..."
 					class="w-full"
 					autofocus
-					bind:value={query}
+					value={query()}
 					onkeydown={onSearchInput}
 				/>
 			</div>
@@ -177,15 +186,13 @@
 					</div>
 
 					{#each items as command (`${category}-${command.text}`)}
-						{@const onclick = () => (
-							(isOpen = false), (query = ''), (selectedIndex = 0), command.trigger()
-						)}
+						{@const onclick = () => (close(), clear(), command.trigger())}
 						<button
 							data-command-bar-item
 							data-command-index={flattened.indexOf(command)}
 							class="flex flex-row gap-2"
 							{onclick}
-							class:selected={flattened[selectedIndex] === command}
+							class:selected={flattened[selectedIndex()] === command}
 						>
 							{#if command.icon}
 								{@const Icon = command.icon}

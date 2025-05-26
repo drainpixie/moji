@@ -1,4 +1,4 @@
-<div id="styling" class="space-y-3 px-8 text-zinc-500 md:px-0 dark:text-zinc-400">
+<div id="styling" class="space-y-3 text-zinc-500 dark:text-zinc-400">
 	<div>
 		<p>data-command-bar-overlay</p>
 		<p>Fixed overlay container that covers the entire screen when command bar is open</p>

@@ -51,7 +51,7 @@
 </svelte:head>
 
 <main
-	class="flex min-h-screen flex-col items-center justify-center bg-neutral-50 dark:bg-neutral-950"
+	class="flex min-h-screen flex-col items-center justify-center bg-neutral-50 px-8 md:px-0 dark:bg-neutral-950"
 >
 	{@render children()}
 </main>

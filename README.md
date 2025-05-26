@@ -5,7 +5,7 @@ a cute and modular svelte kbar
 
 ## 🖥️ use
 
-check `src/routes/+layout.svelte` for usage.
+check `src/routes/+layout.svelte` and `src/routes/+page.svelte` for usage.
 
 ```sh
 $ pnpm add @drainpixie/moji
