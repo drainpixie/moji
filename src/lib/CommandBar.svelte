@@ -143,7 +143,7 @@
 	<div
 		data-command-bar-overlay
 		data-state={isOpen ? 'open' : 'closed'}
-		class="fixed top-0 left-0 z-50 flex h-full w-full flex-col items-center justify-center"
+		class="fixed top-0 left-0 z-50 flex h-full w-full flex-col items-center justify-center px-4 md:px-0"
 	>
 		<div
 			data-command-bar

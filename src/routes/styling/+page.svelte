@@ -1,63 +1,76 @@
-<div class="w-full max-w-4xl overflow-x-auto">
-	<table class="min-w-full text-zinc-500 dark:text-zinc-400">
-		<thead>
-			<tr class="border-b border-zinc-200 dark:border-zinc-700">
-				<th class="min-w-[200px] py-2 pr-4 text-left font-semibold text-zinc-800 dark:text-zinc-200"
-					>Attribute</th
-				>
-				<th class="py-2 text-left font-semibold text-zinc-800 dark:text-zinc-200">Description</th>
-			</tr>
-		</thead>
-		<tbody class="divide-y divide-zinc-200 dark:divide-zinc-700">
-			<tr>
-				<td class="py-2 pr-4 font-mono text-sm whitespace-nowrap">data-command-bar-overlay</td>
-				<td class="py-2"
-					>Fixed overlay container that covers the entire screen when command bar is open</td
-				>
-			</tr>
-			<tr>
-				<td class="py-2 pr-4 font-mono text-sm whitespace-nowrap">data-command-bar</td>
-				<td class="py-2">Main command bar container with search and content sections</td>
-			</tr>
-			<tr>
-				<td class="py-2 pr-4 font-mono text-sm whitespace-nowrap">data-command-bar-search</td>
-				<td class="py-2">Search section container that holds the input field</td>
-			</tr>
-			<tr>
-				<td class="py-2 pr-4 font-mono text-sm whitespace-nowrap">data-command-bar-search-input</td>
-				<td class="py-2">Text input field for searching commands with autofocus</td>
-			</tr>
-			<tr>
-				<td class="py-2 pr-4 font-mono text-sm whitespace-nowrap">data-command-bar-content</td>
-				<td class="py-2">Container for the command list with hover events and listbox role</td>
-			</tr>
-			<tr>
-				<td class="py-2 pr-4 font-mono text-sm whitespace-nowrap"
-					>data-command-bar-category-title</td
-				>
-				<td class="py-2">Title element for each command category grouping</td>
-			</tr>
-			<tr>
-				<td class="py-2 pr-4 font-mono text-sm whitespace-nowrap">data-command-bar-item</td>
-				<td class="py-2">Individual command button with click handler and selection state</td>
-			</tr>
-			<tr>
-				<td class="py-2 pr-4 font-mono text-sm whitespace-nowrap">data-command-bar-icon</td>
-				<td class="py-2">Icon component displayed next to command text (optional)</td>
-			</tr>
-			<tr>
-				<td class="py-2 pr-4 font-mono text-sm whitespace-nowrap">data-command-bar-text</td>
-				<td class="py-2">Text content of each command item</td>
-			</tr>
-			<tr>
-				<td class="py-2 pr-4 font-mono text-sm whitespace-nowrap">data-command-index</td>
-				<td class="py-2">Numeric index attribute for tracking command position in flattened list</td
-				>
-			</tr>
-			<tr>
-				<td class="py-2 pr-4 font-mono text-sm whitespace-nowrap">data-state</td>
-				<td class="py-2">State attribute indicating if command bar is "open" or "closed"</td>
-			</tr>
-		</tbody>
-	</table>
+<div id="styling" class="space-y-3 px-8 text-zinc-500 md:px-0 dark:text-zinc-400">
+	<div>
+		<p>data-command-bar-overlay</p>
+		<p>Fixed overlay container that covers the entire screen when command bar is open</p>
+	</div>
+
+	<div>
+		<p>data-command-bar</p>
+		<p>Main command bar container</p>
+	</div>
+
+	<div>
+		<p>data-command-bar-search</p>
+		<p>Search section container</p>
+	</div>
+
+	<div>
+		<p>data-command-bar-search-input</p>
+		<p>Text input field for searching commands</p>
+	</div>
+
+	<div>
+		<p>data-command-bar-content</p>
+		<p>Container for the command list</p>
+	</div>
+
+	<div>
+		<p>data-command-bar-category-title</p>
+		<p>Title element for each command category grouping</p>
+	</div>
+
+	<div>
+		<p>data-command-bar-item</p>
+		<p>Individual command button</p>
+	</div>
+
+	<div>
+		<p>data-command-bar-icon?</p>
+		<p>Icon component displayed next to command text</p>
+	</div>
+
+	<div>
+		<p>data-command-bar-text</p>
+		<p>Text content of each command item</p>
+	</div>
+
+	<div>
+		<p>data-command-index</p>
+		<p>Numeric index attribute for tracking the command position</p>
+	</div>
+
+	<div>
+		<p>data-state</p>
+		<p>State attribute indicating if the command bar is "open" or "closed"</p>
+	</div>
 </div>
+
+<style lang="postcss">
+	@reference "../../app.css";
+
+	#styling div {
+		@apply mb-2 border-l border-zinc-200 pl-2 dark:border-zinc-700;
+	}
+
+	#styling div:last-child {
+		@apply mb-0;
+	}
+
+	#styling div p:nth-child(1) {
+		@apply text-sm font-semibold break-all text-zinc-800 dark:text-zinc-200;
+	}
+
+	#styling div p:nth-child(2) {
+		@apply text-sm;
+	}
+</style>
