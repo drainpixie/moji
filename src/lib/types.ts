@@ -73,6 +73,7 @@ export interface CommandBarProps {
 	 * The hotkey to trigger the command bar.
 	 * @default (e) => e.key === 'k' && e.ctrlKey
 	 */
+
 	hotkey?: (e: KeyboardEvent) => boolean | string[];
 
 	/**

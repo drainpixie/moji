@@ -10,62 +10,13 @@
 		setIndex,
 		setQuery
 	} from './state.svelte.js';
+	import { jaroWinkler } from '@drainpixie/jaro';
 
 	const {
 		commands = [],
 		hotkey = (e) => e.key === 'k' && e.ctrlKey,
 		maxItems = 5
 	}: CommandBarProps = $props();
-
-	// TODO: Port to own library
-	function jaroWinklerDistance(a: string, b: string) {
-		a = a.toLowerCase();
-		b = b.toLowerCase();
-
-		if (a === b) return 1.0;
-
-		const m = a.length;
-		const n = b.length;
-
-		if (m === 0 || n === 0) return 0.0;
-
-		const distance = Math.max(m, n) >>> 1;
-		const range = distance > 0 ? distance - 1 : 0;
-
-		let matches = 0;
-		const am = new Uint8Array(m);
-		const bm = new Uint8Array(n);
-
-		for (let i = 0; i < m; i++) {
-			const start = Math.max(0, i - range);
-			const end = Math.min(n, i + range + 1);
-
-			for (let j = start; j < end; j++) {
-				if (bm[j] || a[i] !== b[j]) continue;
-
-				am[i] = 1;
-				bm[j] = 1;
-				matches++;
-				break;
-			}
-		}
-
-		if (matches === 0) return 0.0;
-
-		let transpositions = 0;
-		let k = 0;
-
-		for (let i = 0; i < m; i++) {
-			if (!am[i]) continue;
-
-			while (!bm[k]) k++;
-			if (a[i] !== b[k]) transpositions++;
-
-			k++;
-		}
-
-		return (matches / m + matches / n + (matches - (transpositions >>> 1)) / matches) / 3.0;
-	}
 
 	function groupBy<T>(items: T[], fn: (item: T) => string) {
 		return items.reduce(
@@ -81,7 +32,7 @@
 	const sorted = $derived(
 		groupBy(
 			commands
-				.map((command) => ({ command, score: jaroWinklerDistance(command.text, query()) }))
+				.map((command) => ({ command, score: jaroWinkler(command.text, query()) }))
 				.sort((a, b) => b.score - a.score)
 				.slice(0, maxItems)
 				.map(({ command }) => command),
