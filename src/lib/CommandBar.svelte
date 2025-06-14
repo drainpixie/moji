@@ -205,11 +205,11 @@
 							</span>
 
 							{#if command.hotkey}
-								<kbd data-command-bar-hotkey>
-									{#each command.hotkey as key (key)}
+								{#each command.hotkey as key (key)}
+									<kbd data-command-bar-hotkey>
 										{key}
-									{/each}
-								</kbd>
+									</kbd>
+								{/each}
 							{/if}
 						</button>
 					{/each}

@@ -21,7 +21,13 @@
 			hotkey: ['c']
 		},
 		{ text: 'New', trigger: () => console.log('New'), icon: Plus, category: 'actions' },
-		{ text: 'Save', trigger: () => console.log('Save'), icon: Save, category: 'actions' },
+		{
+			text: 'Save',
+			trigger: () => console.log('Save'),
+			icon: Save,
+			category: 'actions',
+			hotkey: ['ctrl', 's']
+		},
 		{ text: 'Delete', trigger: () => console.log('Delete'), icon: Trash, category: 'actions' },
 		{
 			text: 'SourceHut',
